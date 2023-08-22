@@ -1,8 +1,8 @@
-# peak - Order Tracking App
+# TrackSwift - Order Tracking App
 
-Welcome to the peak repository! peak is an innovative Order Tracking App designed to provide users with a seamless and efficient way to track their orders, just like popular services such as DHL and FedEx. While still in its initial phases, peak aims to revolutionize order tracking by offering a user-friendly interface, real-time updates, and comprehensive order management.
+Welcome to the TrackSwift repository! TrackSwift is an innovative Order Tracking App designed to provide users with a seamless and efficient way to track their orders, just like popular services such as DHL and FedEx. While still in its initial phases, TrackSwift aims to revolutionize order tracking by offering a user-friendly interface, real-time updates, and comprehensive order management.
 
-![peak App Logo](client/public/peak_logo.png)
+![TrackSwift App Logo](client/public/TrackSwift_logo.png)
 
 ## Table of Contents
 
@@ -16,12 +16,12 @@ Welcome to the peak repository! peak is an innovative Order Tracking App designe
 
 ## Project Overview
 
-peak is your go-to solution for keeping track of your orders with ease and accuracy. Our app is designed to provide a seamless user experience, offering real-time updates on your shipments and ensuring that you're always informed about your package's whereabouts. Whether you're a frequent online shopper or a business owner, peak simplifies the order tracking process.
+TrackSwift is your go-to solution for keeping track of your orders with ease and accuracy. Our app is designed to provide a seamless user experience, offering real-time updates on your shipments and ensuring that you're always informed about your package's whereabouts. Whether you're a frequent online shopper or a business owner, TrackSwift simplifies the order tracking process.
 
 ## Features
 
 - **Order Tracking:** Enter your tracking number and receive real-time updates on your package's location and estimated delivery date.
-- **Multi-Carrier Support:** peak supports a variety of shipping carriers, ensuring that you can track orders from different services in one place.
+- **Multi-Carrier Support:** TrackSwift supports a variety of shipping carriers, ensuring that you can track orders from different services in one place.
 - **User-Friendly Interface:** Our intuitive design makes it effortless to navigate and access your tracking information.
 - **Push Notifications:** Receive notifications when your order status changes, ensuring you're always in the loop.
 - **Order History:** Easily access your past orders and their tracking information for your reference.
@@ -36,20 +36,20 @@ peak is your go-to solution for keeping track of your orders with ease and accur
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/yourusername/peak.git`
-2. Navigate to the project folder: `cd peak`
+1. Clone the repository: `git clone https://github.com/yourusername/TrackSwift.git`
+2. Navigate to the project folder: `cd TrackSwift`
 3. Install dependencies: `npm install`
 
 ## Usage
 
-1. Launch the peak app.
+1. Launch the TrackSwift app.
 2. Log in or create an account.
 3. Enter your tracking number and relevant information.
 4. Track your orders and receive updates.
 
 ## Contributing
 
-We welcome contributions to make peak even better! To contribute:
+We welcome contributions to make TrackSwift even better! To contribute:
 
 1. Fork the repository.
 2. Create a new branch: `git checkout -b feature/your-feature`.
@@ -64,6 +64,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-Thank you for your interest in peak! We're excited to bring you a top-notch Order Tracking App. If you have questions or feedback, feel free to reach out via the repository.
+Thank you for your interest in TrackSwift! We're excited to bring you a top-notch Order Tracking App. If you have questions or feedback, feel free to reach out via the repository.
 
 Stay tuned for updates!
