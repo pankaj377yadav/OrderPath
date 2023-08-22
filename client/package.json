@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.14.4",
     "autoprefixer": "10.4.14",
     "formik": "^2.4.3",
+    "framer-motion": "^10.16.0",
     "next": "13.4.12",
     "postcss": "8.4.27",
     "react": "18.2.0",

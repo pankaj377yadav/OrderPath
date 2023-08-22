@@ -60,9 +60,9 @@ const Register = ( )=> {
               <Field as="select" name="role" className={styles.input}>
                 <option value="User" onClick={()=>setRole("user")}>User</option>
                 <option value="Rider" onClick={()=>setRole("rider")}>Rider</option>
-                
-                </Field>
-                <br/>
+                <option value="Admin" onClick={()=>setRole("rider")}>Admin</option>
+              </Field>
+              <br/>
               <button type="submit"  className={styles.submit}>Submit</button>
               Already User! {role}
               <br/> <Link href="/login" className={styles.submit}>Sign in</Link>
