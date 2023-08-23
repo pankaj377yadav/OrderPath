@@ -2,11 +2,7 @@
 
 Welcome to the OrderPath repository! OrderPath is an innovative Order Tracking App designed to provide users with a seamless and efficient way to track their orders, just like popular services such as DHL and FedEx. While still in its initial phases, OrderPath aims to revolutionize order tracking by offering a user-friendly interface, real-time updates, and comprehensive order management.
 
-<<<<<<< HEAD
 ![TrackSwift App Logo](client/public/orderpath_logo.jpg)
-=======
-![OrderPath App Logo](client/public/OrderPath_logo.png)
->>>>>>> 53c5d0aaf368352c0fd201292f2638d8ae92b8bc
 
 ## Table of Contents
 
