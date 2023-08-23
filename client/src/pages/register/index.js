@@ -6,7 +6,7 @@ import styles from "@/styles/form.module.css"
 
 
 const Register = ( )=> {
-  const [role, setRole] = useState("user")
+  const [role, setRole] = useState(" ")
    
     return (
         <div className={styles.body}>
@@ -60,7 +60,7 @@ const Register = ( )=> {
               <Field as="select" name="role" className={styles.input}>
                 <option value="User" onClick={()=>setRole("user")}>User</option>
                 <option value="Rider" onClick={()=>setRole("rider")}>Rider</option>
-                <option value="Admin" onClick={()=>setRole("rider")}>Admin</option>
+                <option value="Admin" onClick={()=>setRole("admin")}>Admin</option>
               </Field>
               <br/>
               <button type="submit"  className={styles.submit}>Submit</button>

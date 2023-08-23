@@ -22,6 +22,7 @@ const Login = ( )=> {
             fullName: '',
             phoneNumber: '',
             password: '',
+            email: '',
           }}
           onSubmit={values => {
             triggerLogin(values)
@@ -36,6 +37,11 @@ const Login = ( )=> {
               {errors.fullName && touched.fullName ? (
                 <div>{errors.phoneNumber}</div>
               ) : null} <br/>
+              <Field name="email" placeholder="Email" type="email"  className={styles.input}/>
+              {errors.email && touched.email ? (
+                <div>{errors.email}</div>
+              ) : null}
+              <br/>
               <Field name="phoneNumber" placeholder="Phone Number" type="number"  className={styles.input}/>
               {errors.phoneNumber && touched.phoneNumber ? (
                 <div>{errors.phoneNumber}</div>
