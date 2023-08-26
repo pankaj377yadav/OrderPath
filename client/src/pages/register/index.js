@@ -11,7 +11,6 @@ const Register = ( )=> {
     return (
         <div className={styles.body}>
     
-      
         <Formik
           initialValues={{
             fullName: '',

@@ -11,7 +11,7 @@ const Login = ( )=> {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values)
     };
-    const res = await fetch('http://localhost:3001/login', requestOptions)
+    const res = await fetch('http://localhost:3001/login',requestOptions)
     const data = await res.json()
   
     }
@@ -19,13 +19,11 @@ const Login = ( )=> {
       <div className={styles.body}>
         <Formik
           initialValues={{
-            fullName: '',
             phoneNumber: '',
             password: '',
-            email: '',
           }}
           onSubmit={values => {
-            triggerLogin(values)
+            triggerLogin(values)  
       
           }}
         >
@@ -33,15 +31,7 @@ const Login = ( )=> {
             <Form className={styles.form}>
               <h2 className={styles.title}>Login</h2>
 
-              <Field name="fullName" placeholder="Full Name" type="text" className={styles.input}/>
-              {errors.fullName && touched.fullName ? (
-                <div>{errors.phoneNumber}</div>
-              ) : null} <br/>
-              <Field name="email" placeholder="Email" type="email"  className={styles.input}/>
-              {errors.email && touched.email ? (
-                <div>{errors.email}</div>
-              ) : null}
-              <br/>
+          
               <Field name="phoneNumber" placeholder="Phone Number" type="number"  className={styles.input}/>
               {errors.phoneNumber && touched.phoneNumber ? (
                 <div>{errors.phoneNumber}</div>
