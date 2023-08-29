@@ -1,61 +1,88 @@
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import Link from 'next/link';
-import styles from "@/styles/form.module.css"
+import React from "react";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+import { useState } from "react";
+import { useToast } from "@chakra-ui/react";
+import Link from "next/link";
+import styles from "../../styles/form.module.css";
 
+const SigninSchema = Yup.object().shape({
+  phoneNumber: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  password: Yup.string()
+    .min(2, "Too weak!")
+    .max(50, "Too Long!")
+    .required("Required"),
+});
 
-const Login = ( )=> {
-    const triggerLogin = async(values)=>{
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values)
-    };
-    const res = await fetch('http://localhost:3001/login',requestOptions)
+const Login = () => {
+  const toast = useToast();
+  const handleRegister = async (values) => {
+    // debugger;
+    const res = await fetch("http://localhost:3005/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
     const data = await res.json()
-  
-    }
-    return (
-      <div className={styles.body}>
-        <Formik
-          initialValues={{
-            phoneNumber: '',
-            password: '',
-          }}
-          onSubmit={values => {
-            triggerLogin(values)  
-      
-          }}
-        >
-          {({ errors, touched }) => (
-            <Form className={styles.form}>
-              <h2 className={styles.title}>Login</h2>
+    // console.log(data)
+    toast({
+      title: data.msg,
+      status: res.status==404 ? "warning" : "success",
+      isClosable: true,
+    });
+  };
+  return (
+    <div className={styles.body}>
+      <Formik
+        initialValues={{
+          phoneNumber: "",
+          password: "",
+        }}
+        validationSchema={SigninSchema}
+        onSubmit={(values) => {
+          // same shape as initial values
+          handleRegister(values);
+          // console.log(values);
+        }}
+      >
+        {({ errors, touched }) => (
+          <Form className={styles.form}>
+            <h1 className={styles.title}>Log In</h1>
+            <Field
+              className={styles.input}
+              name="phoneNumber"
+              placeholder="Phone Number "
+            />
+            {errors.phoneNumber && touched.phoneNumber ? (
+              <div>{errors.phoneNumber}</div>
+            ) : null}
+            <br />
+            <Field
+              className={styles.input}
+              name="password"
+              type="password"
+              placeholder="password"
+            />
+            {errors.password && touched.password ? (
+              <div>{errors.password}</div>
+            ) : null}{" "}
+            <br />
+            <button type="submit" className={styles.submit}>
+              Submit
+            </button>
+            Doesn't Have Account Yet!
+            <br />{" "}
+            <Link href="/register" className={styles.submit}>
+              Sign Up
+            </Link>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+};
 
-          
-              <Field name="phoneNumber" placeholder="Phone Number" type="number"  className={styles.input}/>
-              {errors.phoneNumber && touched.phoneNumber ? (
-                <div>{errors.phoneNumber}</div>
-              ) : null}
-              <br/>
-              <Field name="password" placeholder="Password" type="password" className={styles.input}/>
-              {errors.password && touched.password? (
-                <div>{errors.password}</div>
-              ) : null}
-              <br/>
-              <br/>
-              <button type="submit" className={styles.submit}>Submit</button>
-              <br/>
-              <br/>
-             Dont have an account yet ? 
-             <br/>
-             <br/>
-              <Link href="/register" className={styles.submit}>Sign Up</Link>
-            </Form>
-          )}
-        </Formik>
-        </div>
-    )
-}
-
-
-export default Login
+export default Login;
