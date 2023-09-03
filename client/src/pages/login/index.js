@@ -34,6 +34,7 @@ const Login = () => {
       isClosable: true,
     });
   };
+
   return (
     <div className={styles.body}>
       <Formik
@@ -64,7 +65,7 @@ const Login = () => {
               className={styles.input}
               name="password"
               type="password"
-              placeholder="password"
+              placeholder="Password"
             />
             {errors.password && touched.password ? (
               <div>{errors.password}</div>
