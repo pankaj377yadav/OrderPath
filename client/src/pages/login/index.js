@@ -4,20 +4,19 @@ import * as Yup from "yup";
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import Link from "next/link";
+import {setLoginDetails} from "../../redux/reducerSlices/userSlice"
+import { useDispatch } from "react-redux";
 import styles from "../../styles/form.module.css";
 
 const SigninSchema = Yup.object().shape({
   phoneNumber: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
     .required("Required"),
   password: Yup.string()
-    .min(2, "Too weak!")
-    .max(50, "Too Long!")
     .required("Required"),
 });
 
 const Login = () => {
+  const dispatch = useDispatch();
   const toast = useToast();
   const handleRegister = async (values) => {
     // debugger;
@@ -27,6 +26,10 @@ const Login = () => {
       body: JSON.stringify(values),
     });
     const data = await res.json()
+    if (data.isLoggedIn){
+      dispatch(setLoginDetails(data))
+    }
+
     // console.log(data)
     toast({
       title: data.msg,
@@ -74,7 +77,7 @@ const Login = () => {
             <button type="submit" className={styles.submit}>
               Submit
             </button>
-            Doesn't Have Account Yet!
+            <p className={styles.p}>Doesn't Have Account Yet!</p>
             <br />{" "}
             <Link href="/register" className={styles.submit}>
               Sign Up

@@ -33,7 +33,7 @@ const loginUser = async (req, res) => {
     const isMatched = await bcrypt.compare(req.body.password, data.password);
     if (isMatched) {
       const token = await jwt.sign({phoneNumber: req.body.phoneNumber}, process.env.SECRET_KEY);
-      res.json({isLogedin:true, "msg": "Login Success !",token });
+      res.json({isLoggedIn:true, "msg": "Login Success !",token, userInfo:data });
       // console.log(token)
     } else {
       res.status(404).json({ msg: "Invalid Password !" });

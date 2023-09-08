@@ -69,7 +69,7 @@ const Register = () => {
             <Field
               className={styles.input}
               name="fullName"
-              placeholder="fullName"
+              placeholder="Full Name"
             />
             {errors.fullName && touched.fullName ? (
               <div>{errors.fullName}</div>
@@ -127,7 +127,9 @@ const Register = () => {
             <button type="submit" className={styles.submit}>
               Submit
             </button>
+            <p className={styles.p}>
             Already User!
+            </p>
             <br />{" "}
             <Link href="/login" className={styles.submit}>
               Sign in

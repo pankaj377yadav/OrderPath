@@ -7,18 +7,30 @@ export const initialState = {
   isLoggedIn: false,
 };
 
-const countSlice = createSlice({
+const userSlice = createSlice({
   name: "user",
 
   initialState,
 
   reducers: {
-    setLoginDetails: (state, actions) => {},
+    setLoginDetails: (state, actions) => {
+      const { token, isLoggedIn,userInfo} = actions.payload;
+      return{
+        ...state,
+        token,
+        isLoggedIn,
+        userDetails :userInfo
+      };
+    },
 
-    logout: (state) => {},
+    logout: (state) => {
+      return{
+        ...initialState
+      }
+    },
   },
 });
 
-export const { setLoginDetails, logout } = countSlice.actions;
+export const { setLoginDetails, logout } = userSlice.actions;
 
-export default countSlice.reducer;
+export default userSlice.reducer;
