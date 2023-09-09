@@ -58,7 +58,7 @@ const Login = () => {
             <Field
               className={styles.input}
               name="phoneNumber"
-              placeholder="Phone Number "
+              placeholder="Phone Number Or Email "
             />
             {errors.phoneNumber && touched.phoneNumber ? (
               <div>{errors.phoneNumber}</div>

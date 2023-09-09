@@ -1,6 +1,5 @@
-import { background } from "@chakra-ui/react";
 import React from "react";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux";
 import {
   Stack,
   Heading,
@@ -37,7 +36,7 @@ function index() {
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-              <ModalHeader style={{ color: "orange" }}>
+              <ModalHeader style={{ color: "pink" }}>
                 Edit Details
               </ModalHeader>
               <ModalCloseButton />

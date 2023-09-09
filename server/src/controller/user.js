@@ -26,13 +26,19 @@ const registerNewUser = async (req, res) => {
 
 
 const loginUser = async (req, res) => {
-  const data = await User.findOne({ phoneNumber: req.body.phoneNumber });
+const {phoneNumber,password} = req.body
+
+  // const data = await User. findOne(phoneNumber);
+  
+  // to find by email or phoneNumber
+  const data = await User.findOne({ $or: [{ email: phoneNumber }, {phoneNumber: phoneNumber }] });
+
   if (!data) {
     return res.status(404).json({ msg: "User doesn't exist !" });
   } else {
-    const isMatched = await bcrypt.compare(req.body.password, data.password);
+    const isMatched = await bcrypt.compare(password, data.password);
     if (isMatched) {
-      const token = await jwt.sign({phoneNumber: req.body.phoneNumber}, process.env.SECRET_KEY);
+      const token = await jwt.sign({phoneNumber}, process.env.SECRET_KEY);
       res.json({isLoggedIn:true, "msg": "Login Success !",token, userInfo:data });
       // console.log(token)
     } else {
