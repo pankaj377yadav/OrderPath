@@ -1,3 +1,4 @@
+const User = require('../model/user')
 const express=require('express')
 const app=express.Router()
 const UserController = require('../controller/user')

@@ -23,7 +23,7 @@ function index() {
     <div>
       <Stack className={styles.stack}>
         <Heading className={styles.heading}>
-          Account
+          Account Details
         </Heading>
         <div className={styles.body}>
           <p className={styles.p}>{userDetails.fullName}</p>
