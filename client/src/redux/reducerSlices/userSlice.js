@@ -22,7 +22,9 @@ const userSlice = createSlice({
         userDetails :userInfo
       };
     },
-
+changeUserDetails: (state, actions) => {
+state.userDetails = actions.payload
+},
     logout: (state) => {
       return{
         ...initialState
@@ -31,6 +33,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setLoginDetails, logout } = userSlice.actions;
+export const { setLoginDetails,changeUserDetails, logout } = userSlice.actions;
 
 export default userSlice.reducer;

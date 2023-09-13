@@ -13,7 +13,7 @@ import {
   Button,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import UserForm from "../../coponents/userForm";
+import UserForm from "../../components/userForm";
 import styles from "../../styles/account.module.css";
 
 function index() {
@@ -30,23 +30,22 @@ function index() {
           <p className={styles.p}>{userDetails.phoneNumber}</p>
           <p className={styles.p}>{userDetails.email}</p>
           <p className={styles.p}>{userDetails.role}</p>
+          <input  onChange={e=>console.log(e.target.files[0])} type="file"/>
 
           <Button onClick={onOpen}>Edit</Button>
 
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-              <ModalHeader style={{ color: "pink" }}>
+              <ModalHeader style={{ color: "red" }}>
                 Edit Details
               </ModalHeader>
               <ModalCloseButton />
-              <ModalBody></ModalBody>
+              <ModalBody>
+
               <UserForm />
-              <ModalFooter>
-                <Button colorScheme="red" mr={3} onClick={onClose}>
-                  Cancle
-                </Button>
-              </ModalFooter>
+              
+              </ModalBody>
             </ModalContent>
           </Modal>
         </div>

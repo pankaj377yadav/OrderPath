@@ -86,6 +86,7 @@ export default function Home() {
           color="tomato"
           placeholder="Enter your tacking numbers"
           fontSize={20}
+          width={500}
           _placeholder={{ opacity: 0.4, color: "inherit" }}
         />
       </Stack>

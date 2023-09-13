@@ -84,9 +84,25 @@ const getUserDetailsById = async (req, res) => {
   const data = await User.findById(req.params.id);
   if (data) {
     res.json({
-      userList: data,
+      userDetails: data,
     });
   }
 };
 
-module.exports = { registerNewUser, loginUser, getAllUser, getUserDetailsById };
+const updateUserDetailsById= async (req, res) => {
+  const data = await User.findByIdAndUpdate(req.params.id, req.body);
+  if (data) {
+    res.json({
+      msg: "User details edited"
+    });
+  }
+};
+
+
+const uploadImage = async(req, res) =>{
+  res.json({
+    msg:"image upload"
+  })
+}
+
+module.exports = { registerNewUser, loginUser, getAllUser, getUserDetailsById, updateUserDetailsById, uploadImage };

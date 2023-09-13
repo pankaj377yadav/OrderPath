@@ -27,6 +27,7 @@ const Login = () => {
       body: JSON.stringify(values),
     });
     const data = await res.json();
+    
     if (data.isLoggedIn) {
       dispatch(setLoginDetails(data));
     }

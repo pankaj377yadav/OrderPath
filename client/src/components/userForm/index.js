@@ -2,10 +2,11 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
-import { useToast } from "@chakra-ui/react";
+import { useToast,Modal, useDisclosure } from "@chakra-ui/react";
+import {changeUserDetails} from "../../redux/reducerSlices/userSlice"
 import Link from "next/link";
 import styles from "../../styles/form.module.css";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector, useDispatch } from "react-redux";
 
 const SignupSchema = Yup.object().shape({
   fullName: Yup.string()
@@ -22,9 +23,33 @@ const SignupSchema = Yup.object().shape({
 });
 
 const UserForm = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const {userDetails} = useSelector(state=>state.user)
+  // const { fullName, email, phoneNumber } = userDetails
   const [role, setRole] = useState("User");
+  const dispatch = useDispatch()
   const toast = useToast();
+
+const fetchUserDetails = async () =>{
+  const res = await fetch("http://localhost:3005/users/"+ userDetails._id) 
+  const data = await res.json()
+  if (data){
+    dispatch(changeUserDetails(data.userDetails))
+  }
+}
+
+  const  editUsersDetails= async (values) =>{
+    const res = await fetch("http://localhost:3005/account/"+ userDetails._id, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+    const data = await res.json();
+    if (res.status == 200){
+      fetchUserDetails()
+      }
+    }
+     
   // const handleRegister = async (values) => {
   //   // debugger;
   //   const res = await fetch("http://localhost:3005/register", {
@@ -43,10 +68,12 @@ const UserForm = () => {
   return (
     <div >
       <Formik
-        initialValues={userDetails}
+      initialValues={{fullName:userDetails.fullName, email:userDetails.email, phoneNumber:userDetails.phoneNumber}}
         validationSchema={SignupSchema}
-        onSubmit={(values) => {
+        onSubmit={(values,{resetForm}) => {
           // same shape as initial values
+          editUsersDetails(values)
+          resetForm()
           // handleRegister(values);
           // console.log(values);
         }}
@@ -81,9 +108,12 @@ const UserForm = () => {
             <br />
             <br />
             <br />
-            <button type="submit" className={styles.submit}>
+            
+            <button type="submit" className={styles.submit} onClick={onClose}>
               Submit
             </button>
+          <Modal  onClose={onClose}>
+          </Modal>
           </Form>
         )}
       </Formik>
