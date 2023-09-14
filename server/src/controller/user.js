@@ -100,9 +100,17 @@ const updateUserDetailsById= async (req, res) => {
 
 
 const uploadImage = async(req, res) =>{
+  // save the file name that multer has uploded
+  if(req.file?.filename){
+    await User.findByIdAndUpdate(req.params.id,  {$set: {avatarImage: req.file?.filename}})
+  }
   res.json({
     msg:"image upload"
   })
 }
 
-module.exports = { registerNewUser, loginUser, getAllUser, getUserDetailsById, updateUserDetailsById, uploadImage };
+const getUserImage = async(req, res) =>{
+  console.log(req.params)
+}
+
+module.exports = { registerNewUser, loginUser,getUserImage, getAllUser, getUserDetailsById, updateUserDetailsById, uploadImage };

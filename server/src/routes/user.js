@@ -7,7 +7,8 @@ const storage = multer.diskStorage({
       cb(null, 'uploads/avatar/')
     },
     filename: function (req, file, cb) {
-      cb(null, file.originalname)
+      const imageName = Math.floor(Math.random() * 1000) + file.originalname
+      cb(null,imageName )
     }
   })
   
@@ -19,8 +20,9 @@ app.post('/register', UserController.registerNewUser)
 
 app.post('/login', UserController.loginUser)
 
-app.post('/users/:id', upload.single('avatar'), UserController.uploadImage)
+app.post('/users-image/:id', upload.single('avatar'), UserController.uploadImage)
 
+app.get('/users-image/:id', UserController.getUserImage)
 
 app.get('/users', UserController.getAllUser)
 

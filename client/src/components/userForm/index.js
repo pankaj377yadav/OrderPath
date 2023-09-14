@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
-import { useToast,Modal, useDisclosure } from "@chakra-ui/react";
+import { useToast,Modal, useDisclosure,Button } from "@chakra-ui/react";
 import {changeUserDetails} from "../../redux/reducerSlices/userSlice"
 import Link from "next/link";
 import styles from "../../styles/form.module.css";

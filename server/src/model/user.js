@@ -7,6 +7,7 @@ const userSchema =  new mongoose.Schema({
   password:  {type: String,}, 
   role: {type: String, default:"User"},
   status: {type: String, default:"pending"},
+  avatarImage: String,
   
   });
   const User = mongoose.model('User', userSchema);
