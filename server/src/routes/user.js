@@ -1,6 +1,7 @@
 const User = require('../model/user')
 const express=require('express')
 const app=express.Router()
+const UserController = require('../controller/user')
 const multer  = require('multer')
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -13,7 +14,7 @@ const storage = multer.diskStorage({
   })
   
   const upload = multer({ storage: storage })
-const UserController = require('../controller/user')
+
  
 
 app.post('/register', UserController.registerNewUser)

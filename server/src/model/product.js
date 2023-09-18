@@ -5,7 +5,7 @@ const productSchema =  new mongoose.Schema({
     productPrice: String,
     productCategory: String,
     productDescription: String,
-    productImage: {type: String, default: 'https://thumbs.dreamstime.com/b/guitar-16517374.jpg' },
+    productImage: String
   });
   const Product = mongoose.model('Product', productSchema);
 

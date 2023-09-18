@@ -1,6 +1,9 @@
 const User = require("../model/user");
 const bcrypt = require("bcrypt");
+const path = require('path');
 const jwt = require("jsonwebtoken")
+const fs = require('fs');
+const { clearScreenDown } = require("readline");
 const saltRounds = 10;
 
 const registerNewUser = async (req, res) => {
@@ -109,8 +112,21 @@ const uploadImage = async(req, res) =>{
   })
 }
 
+
 const getUserImage = async(req, res) =>{
-  console.log(req.params)
+ try{
+  const userInfo = await User.findById(req.params.id)
+  const imagePath = path.join(__dirname, "../../uploads/avatar", userInfo.avatarImage)
+  const defaultimagePath = path.join(__dirname, "../../uploads/avatar", "default img.png")
+
+  if(fs.existsSync(imagePath)){
+    res.sendFile(imagePath)
+  }else{
+res.sendFile(defaultimagePath)
+  }
+}catch(err){
+console.log(err)
 }
+ }
 
 module.exports = { registerNewUser, loginUser,getUserImage, getAllUser, getUserDetailsById, updateUserDetailsById, uploadImage };

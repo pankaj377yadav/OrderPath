@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
 import { setLoginDetails } from "../../redux/reducerSlices/userSlice";
 import { useDispatch } from "react-redux";
 import styles from "../../styles/form.module.css";
