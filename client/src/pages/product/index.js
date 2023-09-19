@@ -7,49 +7,44 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 import styles from "../../styles/form.module.css";
 import Image from "next/image";
-import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Autocomplete,
+  MarkerF,
+} from "@react-google-maps/api";
 import { useEffect } from "react";
 import { Input } from "@chakra-ui/react";
 
 const SignupSchema = Yup.object().shape({
   productName: Yup.string().required("Required"),
   productPrice: Yup.string().required("Required"),
-  productCategory: Yup.string().required("Required"),
+  productCategory: Yup.string(),
   productDescription: Yup.string()
     .min(2, "Too weak!")
-    .max(50, "Too Long!")
-    .required("Required"),
-  // productImage: Yup.string()
-  //   .required("Required"),
+    .max(50, "Too Long!"),
+
 });
 
-const Register = () => {
-  const [role, setRole] = useState("User");
-  const { userDetails } = useSelector((state) => state.user);
+const Product = () => {
+  const [file, setFile] = useState (null);
   const toast = useToast();
   const [currentPosition, setCurrentPosition] = useState({
     lat: 27.7172,
     lng: 85.324,
   });
 
-  const uploadImage = async (file) => {
-    const formData = new FormData();
-    formData.append("productImg", file);
-    const res = await fetch(
-      "http://localhost:3005/product-image/" + userDetails._id,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const data = await res.json();
-  };
+
   const handleRegister = async (values) => {
     // debugger;
+    const formData = new FormData();
+    for(let item in values){
+      formData.append(item, values[item])
+      }
+    formData.append("productImage", file);
     const res = await fetch("http://localhost:3005/product", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
+      body: formData
     });
     const data = await res.json();
     // console.log(data)
@@ -61,7 +56,8 @@ const Register = () => {
   };
 
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyDLfjmFgDEt9_G2LXVyP61MZtVHE2M3H-0", // ,
+    googleMapsApiKey: "AIzaSyDLfjmFgDEt9_G2LXVyP61MZtVHE2M3H-0",
+    libraries: ["places"], // ,
     // ...otherOptions
   });
   useEffect(() => {
@@ -79,7 +75,6 @@ const Register = () => {
           productPrice: "",
           productCategory: "",
           productDescription: "",
-          productImage: " ",
         }}
         validationSchema={SignupSchema}
         onSubmit={(values, { resetForm }) => {
@@ -90,88 +85,87 @@ const Register = () => {
         }}
       >
         {({ errors, touched }) => (
-          <Form className={styles.form}>
-            <h1 className={styles.title}> Fill Product Details </h1>
-            <Field
-              className={styles.input}
-              name="productName"
-              placeholder="Produnct Name"
-            />
-            {errors.productName && touched.productName ? (
-              <div>{errors.productName}</div>
-            ) : null}{" "}
-            <br />
-            <Field
-              className={styles.input}
-              name="productPrice"
-              placeholder="Product Price"
-            />
-            {errors.productPrice && touched.productPrice ? (
-              <div>{errors.productPrice}</div>
-            ) : null}
-            <br />
-            {/* <Field
-              className={styles.input}
-              name="productImage"
-              placeholder="Product Image"
-            />
-            {errors.productImage && touched.productImage ? <div>{errors.productImage}</div> : null}
-            <br /> */}
-            <Field
-              className={styles.input}
-              name="productCategory"
-              placeholder="Product Category"
-            />
-            {errors.productCategory && touched.productCategory ? (
-              <div>{errors.productCategory}</div>
-            ) : null}{" "}
-            <br />
-            <Field
-              className={styles.input}
-              name="productDescription"
-              placeholder=" Product Description"
-            />
-            {errors.productDescription && touched.productDescription ? (
-              <div>{errors.productDescription}</div>
-            ) : null}{" "}
-            <br />
-            <input
-              onChange={(e) => uploadImage(e.target.files[0])}
-              type="file"
-              className={styles.p}
-            />
-            <br />
-            <button type="submit" className={styles.submit}>
-              Submit
-            </button>
-          </Form>
+          <div className={styles.pickup}>
+            <Form className={styles.form}>
+              <h1 className={styles.title}> Product Details </h1>
+              <Field
+                className={styles.input}
+                name="productName"
+                placeholder="Produnct Name"
+              />
+              {errors.productName && touched.productName ? (
+                <div>{errors.productName}</div>
+              ) : null}{" "}
+              <br />
+              <Field
+                className={styles.input}
+                name="productPrice"
+                placeholder="Product Price"
+              />
+              {errors.productPrice && touched.productPrice ? (
+                <div>{errors.productPrice}</div>
+              ) : null}
+              <br />
+              <Field
+                className={styles.input}
+                name="productCategory"
+                placeholder="Product Category"
+              />
+              {errors.productCategory && touched.productCategory ? (
+                <div>{errors.productCategory}</div>
+              ) : null}{" "}
+              <br />
+              <Field
+                className={styles.input}
+                name="productDescription"
+                placeholder=" Product Description"
+              />
+              {errors.productDescription && touched.productDescription ? (
+                <div>{errors.productDescription}</div>
+              ) : null}{" "}
+              <br />
+            <br/>
+            <br/>
+
+              <input
+                onChange={(e) => setFile(e.target.files[0])}
+                type="file"
+                className={styles.p}
+              />
+              <br />
+              <button type="submit" className={styles.submit}>
+                Submit
+              </button>
+              
+            </Form>
+
+            {/* product img */}
+            {/* <Image
+              direction="row"
+              className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
+              src={
+                "http://localhost:3005/product-image/" +
+                userDetails._id +
+                "?Key=" +
+                Math.random()
+              }
+              alt="product img"
+              width={180}
+              height={180}
+              padding={"300px"}
+            /> */}
+          </div>
         )}
       </Formik>
-      <div>
-        <Image
-          direction="row"
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src={
-            "http://localhost:3005/product-image/" +
-            userDetails._id +
-            "?Key=" +
-            Math.random()
-          }
-          alt="product img"
-          width={180}
-          height={180}
-          padding={"300px"}
-          margin={"300px"}
-          priority
-        />
-      </div>
+
+      {/* google map  */}
       <div className={styles.pickup}>
         {isLoaded && (
           <GoogleMap
             id="circle-example"
             mapContainerStyle={{
-              height: "400px",
-              width: "800px",
+              height: "500px",
+              width: "1000px",
             }}
             zoom={12}
             center={{
@@ -182,16 +176,17 @@ const Register = () => {
             <MarkerF draggable={true} position={currentPosition} />
           </GoogleMap>
         )}
-        <br />
 
+        <br />
+        {/* Enter pickup & Destination place */}
         <Input
           className={styles.p}
           direction="column"
-          color="tomato"
-          placeholder="Enter Pickup Point"
+          color="blue"
+          placeholder="Enter Pickup Location"
           fontSize={20}
           width={400}
-          _placeholder={{ opacity: 0.4, color: "inherit" }}
+          _placeholder={{ color: "inherit" }}
         />
         <br />
         <br />
@@ -200,15 +195,15 @@ const Register = () => {
           direction="column"
           justifyContent={"Center"}
           alignItems={"Center"}
-          color="tomato"
+          color="red"
           placeholder="Enter Destination"
           fontSize={20}
           width={400}
-          _placeholder={{ opacity: 0.4, color: "inherit" }}
+          _placeholder={{ color: "inherit" }}
         />
       </div>
     </div>
   );
 };
 
-export default Register;
+export default Product;

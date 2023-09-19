@@ -19,14 +19,7 @@ const productSlice = createSlice({
       };
     },
 
-// changeUserDetails: (state, actions) => {
-// state.userDetails = actions.payload
-// },
-//     logout: (state) => {
-//       return{
-//         ...initialState
-//       }
-//     },
+
   },
 });
 
