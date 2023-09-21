@@ -24,7 +24,6 @@
     font-size: 25px;
     height: 10%;
     font-style: oblique;
-
     outline: 0;
     padding: 0px 20px 0;
     width: 100%;
@@ -72,8 +71,39 @@
   }
 .p{
   font-style: oblique;
+  flex-direction: row;
+
 }
 .pickup{
-flex-direction: column;
-padding: 20px;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.autocompleteBox{
+  margin: 20px;
+  border: 1px solid #000;
+  width: 50%;
+
+
+}
+.autocompleteList{
+  margin: 10px;
+  padding: 5px;
+  width: 50%;
+  background-color: rgb(244, 244, 244);
+
+}
+.inputPickup {
+  background-color: #303245;
+  border-radius: 5px;
+  border: 0;
+  box-sizing: border-box;
+  color: #eee;
+  font-size: 25px;
+  height: 10%;
+  font-style: oblique;
+  outline: 0;
+  padding: 0px 20px 0;
+  width: 50%;
+  margin-top: 21px;
 }

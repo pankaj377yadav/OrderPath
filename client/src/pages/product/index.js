@@ -14,37 +14,80 @@ import {
   MarkerF,
 } from "@react-google-maps/api";
 import { useEffect } from "react";
-import { Input } from "@chakra-ui/react";
+// import styles from "../../styles/map.module.css"
 
 const SignupSchema = Yup.object().shape({
   productName: Yup.string().required("Required"),
   productPrice: Yup.string().required("Required"),
   productCategory: Yup.string(),
-  productDescription: Yup.string()
-    .min(2, "Too weak!")
-    .max(50, "Too Long!"),
-
+  productDescription: Yup.string().min(2, "Too weak!").max(50, "Too Long!"),
 });
 
+const PlacesCard = (props) => {
+  return (
+    <div
+      onMouseLeave={() => props.setIsSelectionOngoing(false)}
+      onMouseOver={() => props.setIsSelectionOngoing(true)}
+      className={styles.autocompleteBox}
+    >
+      {props.searchedPlaceList.length > 0 &&
+        props.searchedPlaceList.map((item) => {
+          return (
+            <div
+              onClick={() => {
+                props.setPickInputAddress(item.formatted);
+                props.setPickUpOpen(false);
+              }}
+              className={styles.autocompleteList}
+            >
+              {item.formatted.length > 15
+                ? item.formatted.substring(0, 15) + "..."
+                : item.formatted}
+            </div>
+
+            
+          );
+        })}
+    </div>
+
+    
+  );
+};
+
 const Product = () => {
-  const [file, setFile] = useState (null);
+  const [file, setFile] = useState(null);
+  const [productList, setProductList] = useState([]);
   const toast = useToast();
   const [currentPosition, setCurrentPosition] = useState({
     lat: 27.7172,
     lng: 85.324,
   });
+  // const fetchProductList = async()=> {
+  //   try{
+  //     const res = await fetch("http://localhost:3005/product")
+  //     const data = await res.json()
+  //      if(data.productList){
+  //         setProductList(data.productList)
+  //       }
+  //   }catch(err){
+  //     console.log(err)
+  //   }
 
+  // }
+  // useEffect(() => {
+  //   fetchProductList()
+  // }, [])
 
   const handleRegister = async (values) => {
     // debugger;
     const formData = new FormData();
-    for(let item in values){
-      formData.append(item, values[item])
-      }
+    for (let item in values) {
+      formData.append(item, values[item]);
+    }
     formData.append("productImage", file);
     const res = await fetch("http://localhost:3005/product", {
       method: "POST",
-      body: formData
+      body: formData,
     });
     const data = await res.json();
     // console.log(data)
@@ -54,7 +97,15 @@ const Product = () => {
       isClosable: true,
     });
   };
+  const [isSelectionOngoing, setIsSelectionOngoing] = useState(false);
+  const [pickInputAddress, setPickInputAddress] = useState("");
+  const [dropInputAddress, setDropInputAddress] = useState("");
 
+  const [pickUpOpen, setPickUpOpen] = useState(false);
+  const [dropOpen, setDropOpen] = useState(false);
+
+  const [searchedPlaceList, setSearchedPlaceList] = useState([]);
+  const { isLoggedIn, userDetails } = useSelector((state) => state.user);
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyDLfjmFgDEt9_G2LXVyP61MZtVHE2M3H-0",
     libraries: ["places"], // ,
@@ -67,6 +118,19 @@ const Product = () => {
     });
   }, []);
 
+  const generatePlaces = async (text) => {
+    setPickUpOpen(true);
+    setDropOpen(true);
+    setPickInputAddress(text);
+    setDropInputAddress(text);
+    const res = await fetch(
+      `https://api.geoapify.com/v1/geocode/autocomplete?text=${text}&format=json&apiKey=a1dd45a7dfc54f55a44b69d125722fcb`
+    );
+    const data = await res.json();
+    if (data.results) {
+      setSearchedPlaceList(data.results);
+    }
+  };
   return (
     <div className={styles.body}>
       <Formik
@@ -124,9 +188,8 @@ const Product = () => {
                 <div>{errors.productDescription}</div>
               ) : null}{" "}
               <br />
-            <br/>
-            <br/>
-
+              <br />
+              <br />
               <input
                 onChange={(e) => setFile(e.target.files[0])}
                 type="file"
@@ -136,24 +199,20 @@ const Product = () => {
               <button type="submit" className={styles.submit}>
                 Submit
               </button>
-              
             </Form>
-
             {/* product img */}
-            {/* <Image
-              direction="row"
-              className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-              src={
-                "http://localhost:3005/product-image/" +
-                userDetails._id +
-                "?Key=" +
-                Math.random()
-              }
-              alt="product img"
-              width={180}
-              height={180}
-              padding={"300px"}
-            /> */}
+
+            {/* <div>
+    {productList.map(item=>{
+      return <div style={{ width:'200px', height:'190px', margin:'10px'}}>
+        <Image
+            src={'http://localhost:3005/product-image/'+item._id+'?key='+item.productName}
+             height={600} width={400} alt='product_img' />
+          {item.productName}
+          {item.productPrice}
+        </div>
+    })}
+  </div> */}
           </div>
         )}
       </Formik>
@@ -179,28 +238,50 @@ const Product = () => {
 
         <br />
         {/* Enter pickup & Destination place */}
-        <Input
-          className={styles.p}
-          direction="column"
-          color="blue"
-          placeholder="Enter Pickup Location"
-          fontSize={20}
-          width={400}
-          _placeholder={{ color: "inherit" }}
-        />
-        <br />
-        <br />
-        <Input
-          className={styles.p}
-          direction="column"
-          justifyContent={"Center"}
-          alignItems={"Center"}
-          color="red"
-          placeholder="Enter Destination"
-          fontSize={20}
-          width={400}
-          _placeholder={{ color: "inherit" }}
-        />
+        <div className="flex justify-center mt-8 px-32 space-x-5 w-full h-22">
+          <div >
+            <input
+              className={styles.inputPickup}
+              value={pickInputAddress}
+              onBlur={() => !isSelectionOngoing && setPickUpOpen(false)}
+              onChange={(e) => generatePlaces(e.target.value)}
+              type="text"
+              id="default-input"
+              placeholder="Enter your pickup point"
+            ></input>
+            {pickUpOpen && (
+              <PlacesCard
+                isSelectionOngoing={isSelectionOngoing}
+                setIsSelectionOngoing={setIsSelectionOngoing}
+                setPickUpOpen={setPickUpOpen}
+                setPickInputAddress={setPickInputAddress}
+                searchedPlaceList={searchedPlaceList}
+              />
+            )}
+          </div>
+          <br />
+
+          <div className="mb-6 flex justify-center flex-col w-1/3 ">
+            <input
+              className={styles.inputPickup}
+              value={dropInputAddress}
+              onBlur={() => !isSelectionOngoing && setDropOpen(false)}
+              onChange={(e) => generatePlaces(e.target.value)}
+              type="text"
+              id="default-input"
+              placeholder="Enter your Destination"
+            ></input>
+            {pickUpOpen && (
+              <PlacesCard
+                isSelectionOngoing={isSelectionOngoing}
+                setIsSelectionOngoing={setIsSelectionOngoing}
+                setDropOpen={setDropOpen}
+                setDropInputAddress={setDropInputAddress}
+                searchedPlaceList={searchedPlaceList}
+              />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
