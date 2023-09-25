@@ -17,6 +17,7 @@
     "@mui/material": "^5.14.4",
     "@react-google-maps/api": "^2.19.2",
     "@reduxjs/toolkit": "^1.9.5",
+    "antd": "^5.9.2",
     "autoprefixer": "10.4.14",
     "formik": "^2.4.3",
     "framer-motion": "^10.16.1",

@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
+import { Link as ChakraLink } from "@chakra-ui/react";
+
 import {
   Stack,
   Heading,
@@ -47,10 +49,14 @@ function index() {
             type="file"
             className={styles.p}
           />
-
           <Button onClick={onOpen} className={styles.p}>
             Edit
           </Button>
+          <ChakraLink href="/" isInternal>
+            <Button className={styles.ok} colorScheme="red" fontSize={20}>
+              OK
+            </Button>
+          </ChakraLink>
 
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />

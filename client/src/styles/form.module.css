@@ -73,6 +73,7 @@
 .p {
   font-style: oblique;
   flex-direction: row;
+  color: orange;
 }
 .pickup {
   display: flex;

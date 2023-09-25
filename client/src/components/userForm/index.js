@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import { useState } from "react";
 import { useToast,Modal, useDisclosure,Button } from "@chakra-ui/react";
 import {changeUserDetails} from "../../redux/reducerSlices/userSlice"
-import Link from "next/link";
 import styles from "../../styles/form.module.css";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -50,21 +49,7 @@ const fetchUserDetails = async () =>{
       }
     }
      
-  // const handleRegister = async (values) => {
-  //   // debugger;
-  //   const res = await fetch("http://localhost:3005/register", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(values),
-  //   });
-  //   const data = await res.json()
-  //   // console.log(data)
-  //   toast({
-  //     title: data.msg,
-  //     status: res.status==409 ? "warning" : "success",
-  //     isClosable: true,
-  //   });
-  // };
+
   return (
     <div >
       <Formik
