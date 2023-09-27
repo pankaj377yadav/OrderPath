@@ -79,7 +79,7 @@ const ProductForm = () => {
           marginTop: 8,
         }}
       >
-        Upload
+        Upload img
       </div>
     </div>
   );
@@ -156,7 +156,11 @@ const ProductForm = () => {
       src={previewImage}
     />
   </Modal> */}
-              <>
+             
+              <br />
+  
+            </Form>
+            <>
                 <Upload
                   action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
                   listType="picture-card"
@@ -183,11 +187,9 @@ const ProductForm = () => {
                   />
                 </Modal>
               </>
-              <br />
               <button type="submit" className={styles.submit}>
                 Submit
               </button>
-            </Form>
           </div>
         )}
       </Formik>

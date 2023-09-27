@@ -9,33 +9,7 @@ import {
 } from "@react-google-maps/api";
 import { useEffect } from "react";
 import ProductForm from "../../components/productForm";
-
-const PlacesCard = (props) => {
-  return (
-    <div
-      onMouseLeave={() => props.setIsSelectionOngoing(false)}
-      onMouseOver={() => props.setIsSelectionOngoing(true)}
-      className={styles.autocompleteBox}
-    >
-      {props.searchedPlaceList.length > 0 &&
-        props.searchedPlaceList.map((item) => {
-          return (
-            <div
-              onClick={() => {
-                props.setAddress(item.formatted);
-                props.setOpen(false);
-              }}
-              className={styles.autocompleteList}
-            >
-              {item.formatted.length > 15
-                ? item.formatted.substring(0, 35) + "..."
-                : item.formatted}
-            </div>
-          );
-        })}
-    </div>
-  );
-};
+import PlacesCard from "@/components/placeCard";
 
 const Product = () => {
   const [currentPosition, setCurrentPosition] = useState({
@@ -49,11 +23,14 @@ const Product = () => {
   const [dropInputAddress, setDropInputAddress] = useState("");
   const [pickUpOpen, setPickUpOpen] = useState(false);
   const [dropOpen, setDropOpen] = useState(false);
+  const [zoom, setZoom] = useState(13);
+  const [destinationOpen, setDestinationOpen] = useState(false);
   const [searchedPlaceList, setSearchedPlaceList] = useState([]);
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyDLfjmFgDEt9_G2LXVyP61MZtVHE2M3H-0",
     libraries: ["places"], // ,
   });
+  const [pickup, setPickup] = useState(true);
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((latlan) => {
       const { latitude, longitude } = latlan.coords;
@@ -79,6 +56,21 @@ const Product = () => {
     }
   };
 
+  const changePickUpAddress = async (e) => {
+    setCurrentPosition({
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+    });
+    const res = await fetch(
+      `https://api.geoapify.com/v1/geocode/reverse?lat=${e.latLng.lat()}&lon=${e.latLng.lng()}&apiKey=a1dd45a7dfc54f55a44b69d125722fcb`
+    );
+    const data = await res.json();
+    if (data && pickup) {
+      setPickInputAddress(data.features[0].properties.formatted);
+    } else if (data && !pickup) {
+      setDropInputAddress(data.features[0].properties.formatted);
+    }
+  };
   return (
     <div style={{ display: "flex" }}>
       {/* Profuct Form */}
@@ -93,13 +85,25 @@ const Product = () => {
               height: "70%",
               width: "100%",
             }}
-            zoom={12}
-            center={{
-              lat: 27.7172,
-              lng: 85.324,
-            }}
+            zoom={zoom}
+            center={
+              currentPosition.lat
+                ? currentPosition
+                : {
+                    lat: 27.7172,
+                    lng: 85.324,
+                  }
+            }
           >
-            <MarkerF draggable={true} position={currentPosition} />
+            <MarkerF
+              icon={{
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 7,
+              }}
+              onDragEnd={changePickUpAddress}
+              draggable={true}
+              position={currentPosition}
+            />
           </GoogleMap>
         )}
 
@@ -112,6 +116,7 @@ const Product = () => {
             justifyContent: "space-evenly",
           }}
         >
+          {/* Pickup Section */}
           <div>
             <input
               className={styles.inputPickup}
@@ -121,6 +126,7 @@ const Product = () => {
               type="text"
               id="default-input"
               placeholder="Enter your pickup point"
+              onClick={() => setPickup(true)}
             ></input>
             {pickUpOpen && (
               <PlacesCard
@@ -129,6 +135,7 @@ const Product = () => {
                 setOpen={setPickUpOpen}
                 setAddress={setPickInputAddress}
                 searchedPlaceList={searchedPlaceList}
+                setCurrentPosition={setCurrentPosition}
               />
             )}
           </div>
@@ -141,6 +148,7 @@ const Product = () => {
               type="text"
               id="default-input"
               placeholder="Enter your Destination"
+              onClick={() => setPickup(false)}
             ></input>
             {dropOpen && (
               <PlacesCard
@@ -149,6 +157,7 @@ const Product = () => {
                 setOpen={setDropOpen}
                 setAddress={setDropInputAddress}
                 searchedPlaceList={searchedPlaceList}
+                setCurrentPosition={setCurrentPosition}
               />
             )}
           </div>
