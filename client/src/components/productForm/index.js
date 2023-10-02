@@ -17,7 +17,7 @@ const SignupSchema = Yup.object().shape({
   productName: Yup.string().required("Required"),
   productPrice: Yup.string().required("Required"),
   productCategory: Yup.string(),
-  productDescription: Yup.string().min(2, "Too weak!").max(50, "Too Long!"),
+  productDescription: Yup.string()
 });
 
 const ProductForm = () => {
@@ -31,8 +31,8 @@ const ProductForm = () => {
     for (let item in values) {
       formData.append(item, values[item]);
     }
-    const { name } = fileList[0];
-    setFile(name);
+    // const { name } = fileList[0];
+    // setFile(name);
     formData.append("productImage", file);
     console.log(formData);
     const res = await fetch("http://localhost:3005/product", {
@@ -147,20 +147,8 @@ const ProductForm = () => {
                 type="file"
                 className={styles.p}
               />
-              {/* <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-    <img
-      alt="example"
-      style={{
-        width: '100%',
-      }}
-      src={previewImage}
-    />
-  </Modal> */}
-             
               <br />
-  
-            </Form>
-            <>
+              <>
                 <Upload
                   action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
                   listType="picture-card"
@@ -187,9 +175,21 @@ const ProductForm = () => {
                   />
                 </Modal>
               </>
+              <br />
               <button type="submit" className={styles.submit}>
                 Submit
               </button>
+              {/* <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+    <img
+      alt="example"
+      style={{
+        width: '100%',
+      }}
+      src={previewImage}
+    />
+  </Modal> */}
+              <br />
+            </Form>
           </div>
         )}
       </Formik>

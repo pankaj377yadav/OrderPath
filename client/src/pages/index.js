@@ -71,9 +71,7 @@ export default function Home() {
   const { isLoggedIn } = useSelector((state) => state.user);
 
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
+    <main className={styles.bodyproductForm}>
       <Stack
         direction="row"
         justifyContent={"Center"}
@@ -82,7 +80,7 @@ export default function Home() {
         // padding={"50px"}
       >
         <Heading padding={"20px"} color="orange">
-          <p className={styles.p}>Welcome To Order Path</p>
+          <p className={styles.p}>Welcome To Ship Swift</p>
         </Heading>
       </Stack>
 
@@ -160,7 +158,7 @@ export default function Home() {
           <Image
             direction="row"
             className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-            src="/orderpath_logo.jpg"
+            src="/logo_ship.jpg"
             alt="orderpath_logo.jpg"
             width={180}
             backgroundcolor="black"

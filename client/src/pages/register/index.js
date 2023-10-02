@@ -23,9 +23,7 @@ const SignupSchema = Yup.object().shape({
     .min(2, "Too weak!")
     .max(50, "Too Long!")
     .required("Required"),
-  email: Yup.string()
-    .email("Invalid email")
-    .required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
 });
 
 const Register = () => {
@@ -38,11 +36,11 @@ const Register = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
     });
-    const data = await res.json()
+    const data = await res.json();
     // console.log(data)
     toast({
       title: data.msg,
-      status: res.status==409 ? "warning" : "success",
+      status: res.status == 409 ? "warning" : "success",
       isClosable: true,
     });
   };
@@ -127,9 +125,7 @@ const Register = () => {
             <button type="submit" className={styles.submit}>
               Submit
             </button>
-            <p className={styles.p}>
-            Already User!
-            </p>
+            <p className={styles.p}>Already User!</p>
             <br />{" "}
             <Link href="/login" className={styles.submit}>
               Sign in

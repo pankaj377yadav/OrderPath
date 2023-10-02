@@ -19,7 +19,7 @@ const PlacesCard = (props) => {
                     lat: item.lat,
                     lng: item.lon
                   })
-            
+                  props.setZoom(14);
                   props.setAddress(item.formatted);
                   props.setOpen(false);
                 }}

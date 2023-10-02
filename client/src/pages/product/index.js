@@ -72,94 +72,98 @@ const Product = () => {
     }
   };
   return (
-    <div style={{ display: "flex" }}>
-      {/* Profuct Form */}
-      <ProductForm />
+    <div className={styles.bodyproductForm}>
+      <div style={{ display: "flex" }}>
+        {/* Profuct Form */}
+        <ProductForm />
 
-      {/* google map  */}
-      <div className={styles.pickup}>
-        {isLoaded && (
-          <GoogleMap
-            id="circle-example"
-            mapContainerStyle={{
-              height: "70%",
-              width: "100%",
-            }}
-            zoom={zoom}
-            center={
-              currentPosition.lat
-                ? currentPosition
-                : {
-                    lat: 27.7172,
-                    lng: 85.324,
-                  }
-            }
-          >
-            <MarkerF
-              icon={{
-                path: google.maps.SymbolPath.CIRCLE,
-                scale: 7,
+        {/* google map  */}
+        <div className={styles.pickup}>
+          {isLoaded && (
+            <GoogleMap
+              id="circle-example"
+              mapContainerStyle={{
+                height: "70%",
+                width: "100%",
               }}
-              onDragEnd={changePickUpAddress}
-              draggable={true}
-              position={currentPosition}
-            />
-          </GoogleMap>
-        )}
+              zoom={zoom}
+              center={
+                currentPosition.lat
+                  ? currentPosition
+                  : {
+                      lat: 27.7172,
+                      lng: 85.324,
+                    }
+              }
+            >
+              <MarkerF
+                icon={{
+                  path: google.maps.SymbolPath.CIRCLE,
+                  scale: 7,
+                }}
+                onDragEnd={changePickUpAddress}
+                draggable={true}
+                position={currentPosition}
+              />
+            </GoogleMap>
+          )}
 
-        <br />
-        {/* Enter pickup & Destination place */}
-        <div
-          style={{
-            // width:'100%',
-            display: "flex",
-            justifyContent: "space-evenly",
-          }}
-        >
-          {/* Pickup Section */}
-          <div>
-            <input
-              className={styles.inputPickup}
-              value={pickInputAddress}
-              onBlur={() => !isSelectionOngoing && setPickUpOpen(false)}
-              onChange={(e) => generatePlaces(e.target.value, true)}
-              type="text"
-              id="default-input"
-              placeholder="Enter your pickup point"
-              onClick={() => setPickup(true)}
-            ></input>
-            {pickUpOpen && (
-              <PlacesCard
-                isSelectionOngoing={isSelectionOngoing}
-                setIsSelectionOngoing={setIsSelectionOngoing}
-                setOpen={setPickUpOpen}
-                setAddress={setPickInputAddress}
-                searchedPlaceList={searchedPlaceList}
-                setCurrentPosition={setCurrentPosition}
-              />
-            )}
-          </div>
-          <div>
-            <input
-              className={styles.inputPickup}
-              value={dropInputAddress}
-              onBlur={() => !isSelectionOngoing && setDropOpen(false)}
-              onChange={(e) => generatePlaces(e.target.value, false)}
-              type="text"
-              id="default-input"
-              placeholder="Enter your Destination"
-              onClick={() => setPickup(false)}
-            ></input>
-            {dropOpen && (
-              <PlacesCard
-                isSelectionOngoing={isSelectionOngoing}
-                setIsSelectionOngoing={setIsSelectionOngoing}
-                setOpen={setDropOpen}
-                setAddress={setDropInputAddress}
-                searchedPlaceList={searchedPlaceList}
-                setCurrentPosition={setCurrentPosition}
-              />
-            )}
+          <br />
+          {/* Enter pickup & Destination place */}
+          <div
+            style={{
+              // width:'100%',
+              display: "flex",
+              justifyContent: "space-evenly",
+            }}
+          >
+            {/* Pickup Section */}
+            <div>
+              <input
+                className={styles.inputPickup}
+                value={pickInputAddress}
+                onBlur={() => !isSelectionOngoing && setPickUpOpen(false)}
+                onChange={(e) => generatePlaces(e.target.value, true)}
+                type="text"
+                id="default-input"
+                placeholder="Enter your pickup point"
+                onClick={() => setPickup(true)}
+              ></input>
+              {pickUpOpen && (
+                <PlacesCard
+                  isSelectionOngoing={isSelectionOngoing}
+                  setIsSelectionOngoing={setIsSelectionOngoing}
+                  setOpen={setPickUpOpen}
+                  setAddress={setPickInputAddress}
+                  searchedPlaceList={searchedPlaceList}
+                  setCurrentPosition={setCurrentPosition}
+                  setZoom={setZoom}
+                />
+              )}
+            </div>
+            <div>
+              <input
+                className={styles.inputPickup}
+                value={dropInputAddress}
+                onBlur={() => !isSelectionOngoing && setDropOpen(false)}
+                onChange={(e) => generatePlaces(e.target.value, false)}
+                type="text"
+                id="default-input"
+                placeholder="Enter your Destination"
+                onClick={() => setPickup(false)}
+              ></input>
+              {dropOpen && (
+                <PlacesCard
+                  isSelectionOngoing={isSelectionOngoing}
+                  setIsSelectionOngoing={setIsSelectionOngoing}
+                  setOpen={setDropOpen}
+                  setAddress={setDropInputAddress}
+                  searchedPlaceList={searchedPlaceList}
+                  setCurrentPosition={setCurrentPosition}
+                  setZoom={setZoom}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

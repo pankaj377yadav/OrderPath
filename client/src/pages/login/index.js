@@ -26,9 +26,15 @@ const Login = () => {
       body: JSON.stringify(values),
     });
     const data = await res.json();
-    
+
     if (data.isLoggedIn) {
       dispatch(setLoginDetails(data));
+      console.log(data);
+      if (data.userInfo.role == "Admin") {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     }
 
     // console.log(data)
