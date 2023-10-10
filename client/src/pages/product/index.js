@@ -33,18 +33,14 @@ const CustomModal = (props) => {
     <Modal
       isOpen={props.isOpen}
       onClose={() => {
-      props.onClose();
+        props.onClose();
       }}
     >
       <ModalContent>
-
         <ModalCloseButton />
         {/* productForm */}
 
-        <ProductForm 
-       setclose = {setPhoneValidationOpen}
-         />
-
+        <ProductForm setOpen={props.setProductValidationOpen} />
       </ModalContent>
     </Modal>
   );
@@ -88,7 +84,7 @@ export default function Home() {
     googleMapsApiKey: "AIzaSyCBYY-RtAAYnN1w_wAFmsQc2wz0ReCjriI", // ,
     libraries: ["places"],
   });
-  const [phoneValidationOpen, setPhoneValidationOpen] = useState(false);
+  const [productValidationOpen, setProductValidationOpen] = useState(false);
   const getVehicleType = async (values) => {
     const res = await fetch("http://localhost:3005/vehicles/", {
       method: "GET",
@@ -517,7 +513,7 @@ export default function Home() {
                     </button>
                   ) : (
                     <button
-                      onClick={() => setPhoneValidationOpen(true)}
+                      onClick={() => setProductValidationOpen(true)}
                       type="button"
                       className={styles.submit}
                     >
@@ -531,9 +527,10 @@ export default function Home() {
       </div>
       <div className="w-3/5 p-4">
         <CustomModal
-          isOpen={phoneValidationOpen}
-          onClose={() => setPhoneValidationOpen(false)}
+          isOpen={productValidationOpen}
+          onClose={() => setProductValidationOpen(false)}
           setPhoneInput={setPhoneInput}
+          setProductValidationOpen={setProductValidationOpen}
         />
 
         {/* google map  */}

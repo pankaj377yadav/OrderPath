@@ -93,6 +93,7 @@ const ProductForm = (props) => {
           // same shape as initial values
           handleRegister(values);
           resetForm();
+          props.setOpen(false)
           // console.log(values);
         }}
       >
@@ -165,7 +166,7 @@ const ProductForm = (props) => {
               </>
               <br />
               <button
-                onClick={props.setclose(false)}
+                // onSubmit={()=>props.setclose(false)}
                 type="submit"
                 className={styles.submit}
               >
