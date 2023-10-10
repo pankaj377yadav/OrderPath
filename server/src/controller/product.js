@@ -4,7 +4,6 @@ const path = require('path');
 
 
 const addNewProduct = async (req, res) => {
-  req.body.productImage = req.file?.filename;
   const data = await Product.create(req.body);
   if (data) {
     res.json({

@@ -17,13 +17,17 @@ const SignupSchema = Yup.object().shape({
   productName: Yup.string().required("Required"),
   productPrice: Yup.string().required("Required"),
   productCategory: Yup.string(),
-  productDescription: Yup.string()
+  productDescription: Yup.string(),
 });
 
-const ProductForm = () => {
+const ProductForm = (props) => {
   const toast = useToast();
   const [file, setFile] = useState(null);
   const [productList, setProductList] = useState([]);
+  const [fileList, setFileList] = useState([]);
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
 
   const handleRegister = async (values) => {
     // debugger;
@@ -33,14 +37,14 @@ const ProductForm = () => {
     }
     // const { name } = fileList[0];
     // setFile(name);
-    formData.append("productImage", file);
+    formData.append("productImage", fileList[0].name);
     console.log(formData);
     const res = await fetch("http://localhost:3005/product", {
       method: "POST",
       body: formData,
     });
     const data = await res.json();
-    // console.log(data)
+    console.log(data);
     toast({
       title: data.msg,
       status: res.status == 409 ? "warning" : "success",
@@ -49,10 +53,6 @@ const ProductForm = () => {
   };
 
   // product Img
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState([]);
 
   const handleCancel = () => setPreviewOpen(false);
   const handlePreview = async (file) => {
@@ -67,6 +67,7 @@ const ProductForm = () => {
   };
   const handleChange = ({ fileList: newFileList }) => {
     // const {name} =newFileList[0]
+    console.log(newFileList, "this is list");
     setFileList(newFileList);
     //  console.log(name)
     //  setFile(name)
@@ -74,13 +75,7 @@ const ProductForm = () => {
   const uploadButton = (
     <div>
       <PlusOutlined />
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload img
-      </div>
+      <div className={styles.img}>Upload image</div>
     </div>
   );
 
@@ -142,12 +137,6 @@ const ProductForm = () => {
               ) : null}{" "}
               <br />
               <br />
-              <input
-                onChange={(e) => setFile(e.target.files[0])}
-                type="file"
-                className={styles.p}
-              />
-              <br />
               <>
                 <Upload
                   action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
@@ -165,7 +154,6 @@ const ProductForm = () => {
                   onCancel={handleCancel}
                 >
                   <img
-                    //  onChange={(e) => setFile(e.target.files[0])}
                     type="file"
                     alt="example"
                     style={{
@@ -176,18 +164,13 @@ const ProductForm = () => {
                 </Modal>
               </>
               <br />
-              <button type="submit" className={styles.submit}>
-                Submit
+              <button
+                onClick={props.setclose(false)}
+                type="submit"
+                className={styles.submit}
+              >
+                Submit Request
               </button>
-              {/* <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-    <img
-      alt="example"
-      style={{
-        width: '100%',
-      }}
-      src={previewImage}
-    />
-  </Modal> */}
               <br />
             </Form>
           </div>
